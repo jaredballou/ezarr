@@ -8,8 +8,8 @@ class UserGroupSetup:
 
     def create_config_dir(self, service_name):
         os.system(
-            f'sudo mkdir -p {self.root_dir}/docker/{service_name}-config'
-            f' ; sudo chown -R {service_name}:mediacenter {self.root_dir}/docker/{service_name}-config'
+            f'sudo mkdir -p {self.root_dir}/config/{service_name}-config'
+            f' ; sudo chown -R {service_name}:mediacenter {self.root_dir}/config/{service_name}-config'
             f' ; sudo chown $(id -u):mediacenter {self.root_dir}/docker'
         )
 
@@ -68,6 +68,15 @@ class UserGroupSetup:
         self.create_config_dir('mylar')
         os.system('sudo usermod -a -G mediacenter mylar')
 
+    def prowlarr(self):
+        os.system('sudo useradd prowlarr -u 13006')
+        self.create_config_dir('prowlarr')
+        os.system('sudo usermod -a -G mediacenter prowlarr')
+
+    def qbittorrent(self):
+        os.system('sudo useradd qbittorrent -u 13007')
+        os.system('sudo usermod -a -G mediacenter qbittorrent')
+
     def audiobookshelf(self):
         os.system(
             '/bin/bash -c "sudo useradd audiobookshelf -u 13009'
@@ -79,17 +88,14 @@ class UserGroupSetup:
         self.create_config_dir('audiobookshelf')
         os.system('sudo usermod -a -G mediacenter audiobookshelf')
 
-    def prowlarr(self):
-        os.system('sudo useradd prowlarr -u 13006')
-        self.create_config_dir('prowlarr')
-        os.system('sudo usermod -a -G mediacenter prowlarr')
-
-    def qbittorrent(self):
-        os.system('sudo useradd qbittorrent -u 13007')
-        os.system('sudo usermod -a -G mediacenter qbittorrent')
 
     def overseerr(self):
-        os.system('sudo useradd overseerr -u 13009')
+        os.system('sudo useradd overseerr -u 13010')
         self.create_config_dir('overseerr')
         os.system('sudo usermod -a -G mediacenter overseerr')
+
+    def ombi(self):
+        os.system('sudo useradd ombi -u 13011')
+        self.create_config_dir('ombi')
+        os.system('sudo usermod -a -G mediacenter ombi')
 

@@ -157,24 +157,6 @@ class ContainerConfig:
             '    restart: unless-stopped\n\n'
         )
 
-    def audiobookshelf(self):
-        return (
-            '  audiobookshelf:\n'
-            '    image: ghcr.io/advplyr/audiobookshelf:latest\n'
-            '    container_name: audiobookshelf\n'
-            '    environment:\n'
-            '      - AUDIOBOOKSHELF_UID=13009\n'
-            '      - AUDIOBOOKSHELF_GID=13000\n'
-            '    volumes:\n'
-            '      - ' + self.config_dir + '/audiobookshelf:/config\n'
-            '      - ' + self.root_dir + '/data/audiobooks:/audiobooks\n'
-            '      - ' + self.root_dir + '/data/podcasts:/podcasts\n'
-            '      - ' + self.root_dir + '/data/metadata:/metadata\n'
-            '    ports:\n'
-            '      - "13378:80"\n'
-            '    restart: unless-stopped\n\n'
-        )
-
     def prowlarr(self):
         return (
             '  prowlarr:\n'
@@ -213,13 +195,49 @@ class ContainerConfig:
             '    restart: unless-stopped\n\n'
         )
 
+    def jackett(self):
+        return (
+            '  audiobookshelf:\n'
+            '    image: ghcr.io/advplyr/audiobookshelf:latest\n'
+            '    container_name: audiobookshelf\n'
+            '    environment:\n'
+            '      - AUDIOBOOKSHELF_UID=13010\n'
+            '      - AUDIOBOOKSHELF_GID=13000\n'
+            '    volumes:\n'
+            '      - ' + self.config_dir + '/audiobookshelf:/config\n'
+            '      - ' + self.root_dir + '/data/audiobooks:/audiobooks\n'
+            '      - ' + self.root_dir + '/data/podcasts:/podcasts\n'
+            '      - ' + self.root_dir + '/data/metadata:/metadata\n'
+            '    ports:\n'
+            '      - "13378:80"\n'
+            '    restart: unless-stopped\n\n'
+        )
+
+    def audiobookshelf(self):
+        return (
+            '  audiobookshelf:\n'
+            '    image: ghcr.io/advplyr/audiobookshelf:latest\n'
+            '    container_name: audiobookshelf\n'
+            '    environment:\n'
+            '      - AUDIOBOOKSHELF_UID=13010\n'
+            '      - AUDIOBOOKSHELF_GID=13000\n'
+            '    volumes:\n'
+            '      - ' + self.config_dir + '/audiobookshelf:/config\n'
+            '      - ' + self.root_dir + '/data/audiobooks:/audiobooks\n'
+            '      - ' + self.root_dir + '/data/podcasts:/podcasts\n'
+            '      - ' + self.root_dir + '/data/metadata:/metadata\n'
+            '    ports:\n'
+            '      - "13378:80"\n'
+            '    restart: unless-stopped\n\n'
+        )
+
     def overseerr(self):
         return (
             '  overseerr:\n'
             '    image: sctx/overseerr:latest\n'
             '    container_name: overseerr\n'
             '    environment:\n'
-            '      - PUID=13009\n'
+            '      - PUID=13010\n'
             '      - PGID=13000\n'
             '      - UMASK=002\n'
             '      - TZ=' + self.timezone + '\n'
@@ -227,5 +245,39 @@ class ContainerConfig:
             '      - ' + self.config_dir + '/overseerr-config:/app/config\n'
             '    ports:\n'
             '      - "5055:5055"\n'
+            '    restart: unless-stopped\n\n'
+        )
+
+    def jellyseerr(self):
+        return (
+            '  jellyseerr:\n'
+            '    image: fallenbagel/jellyseerr:latest\n'
+            '    container_name: jellyseerr\n'
+            '    environment:\n'
+            '      - PUID=13010\n'
+            '      - PGID=13000\n'
+            '      - UMASK=002\n'
+            '      - TZ=' + self.timezone + '\n'
+            '    volumes:\n'
+            '      - ' + self.config_dir + '/jellyseerr-config:/app/config\n'
+            '    ports:\n'
+            '      - "5055:5055"\n'
+            '    restart: unless-stopped\n\n'
+        )
+
+    def ombi(self):
+        return (
+            '  ombi:\n'
+            '    image: lscr.io/linuxserver/ombi:latest\n'
+            '    container_name: ombi\n'
+            '    environment:\n'
+            '      - PUID=13011\n'
+            '      - PGID=13000\n'
+            '      - UMASK=002\n'
+            '      - TZ=' + self.timezone + '\n'
+            '    volumes:\n'
+            '      - ' + self.config_dir + '/ombi-config:/config\n'
+            '    ports:\n'
+            '      - "3579:3579"\n'
             '    restart: unless-stopped\n\n'
         )

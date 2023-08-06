@@ -1,10 +1,16 @@
 from container_configs import ContainerConfig
 from users_groups_setup import UserGroupSetup
 
+
+
+
 services_classed = dict()
 
+timezone='America/New_York'
+root_dir='./'
+#/mnt/satapool/vms/ezarr'
 
-def take_input(service_name, service_type):
+def take_input(service_name, service_type, service_default='Y'):
     choice = input()
     if choice == 'Y' or choice == 'y' or choice == '':
         services_classed[service_type].append(service_name)
@@ -78,11 +84,18 @@ if len(services_classed['ms']) == 0:
     print('Warning: no media servers selected.')
 
 print('\n===BITTORRENT===')
-services_classed['torrent'] = []
+services_classed['utility'] = []
 print('Use qBittorrent? [Y/n]', end=" ")
-take_input('qbittorrent', 'torrent')
-if len(services_classed['torrent']) == 0:
-    print('Warning: no BitTorrent clients selected.')
+take_input('qbittorrent', 'utility')
+print('Use Overseerr? [Y/n]', end=" ")
+take_input('overseerr', 'utility')
+print('Use Jackett? [Y/n]', end=" ")
+take_input('jackett', 'utility')
+print('Use Ombi? [Y/n]', end=" ")
+take_input('ombi', 'utility')
+
+if len(services_classed['utility']) == 0:
+    print('Warning: no utilities selected.')
 
 services = []
 for service_class in services_classed.keys():
@@ -93,7 +106,7 @@ if len(services) == 0:
 
 print('\n===CONFIGURATION===')
 print('Please enter your timezone (like "Europe/Amsterdam")', end=' ')
-timezone = input()
+#timezone = input()
 if len(timezone) == 0:
     timezone = 'Europe/Amsterdam'
 plex_claim = ''
@@ -102,7 +115,7 @@ if services.__contains__('plex'):
     plex_claim = input()
 
 print('Where would you like to keep your files?', end=' ')
-root_dir = take_directory_input()
+#root_dir = take_directory_input()
 
 compose = open('docker-compose.yml', 'w')
 compose.write(
